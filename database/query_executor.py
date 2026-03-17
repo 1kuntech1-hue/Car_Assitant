@@ -1,4 +1,4 @@
-from database.config import get_connection
+from database.db_config import get_connection
 
 
 def execute_query(query):
@@ -6,6 +6,7 @@ def execute_query(query):
     conn = get_connection()
     cursor = conn.cursor()
 
+    print("Generated SQL:", query)
     cursor.execute(query)
 
     result = cursor.fetchall()
@@ -14,3 +15,4 @@ def execute_query(query):
     conn.close()
 
     return result
+

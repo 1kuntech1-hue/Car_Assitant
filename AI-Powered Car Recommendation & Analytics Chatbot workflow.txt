@@ -1,0 +1,126 @@
+Architecture of AI-Powered Car Recommendation & Analytics Chatbot
+
+                       User Question
+                            ↓
+                      Intent Detection(langchain\llm)
+        ┌─────────────┬─────┘───────┬─────────────┐
+        ↓             ↓             ↓             ↓
+   SQL Query      Recommendation     Chart       Knowledge
+    Engine           Engine          Engine        Engine
+        ↓             ↓               ↓             ↓
+      MySQL         Dataset        Matplotlib       PDF
+        ↓             ↓               ↓             ↓
+        └───────────────→ Gemini LLM ←──────────────┘
+                            ↓
+                       Chat Response
+
+🔹 Engines Inside our Chatbot
+1️⃣ SQL Analytics Engine:
+	Uses MySQL (which we already know).
+
+	Example question:
+	  Which BMW has the highest mpg?
+	  Output:
+	    Table
+	    Text explanation
+
+2️⃣ Chart Engine:
+	The system will:
+	  Run SQL query
+	  Generate chart using matplotlib.
+
+	Example question:
+	  Show average price by model?
+	| Question               | Chart        |
+	| ---------------------- | ------------ |
+	| Average price by model | Bar chart    |
+	| MPG distribution       | Histogram    |
+	| Cars by fuel type      | Pie chart    |
+	| Price vs mileage       | Scatter plot |
+
+
+3️⃣ Recommendation Engine:
+	Logic:
+	  Filter price < 15000
+	  Sort by mpg and year
+	  Return top results
+	
+	Example quesiton:
+	  Which BMW should I buy under £15000?
+
+4️⃣ Knowledge Engine
+	If user asks about dataset meaning.
+	Answer comes from the schema PDF describing the dataset columns.
+
+	Example question:
+	  What does mpg mean?
+
+🧱 Technology Stack (Final)
+| Component   | Technology          | Reason         |
+| ----------- | ------------------- | -------------- |
+| Frontend    | Streamlit           | You know it    |
+| Database    | MySQL / Railway     | You know SQL   |
+| LLM         | Gemini 2.5 Flash    | Fast           |
+| Charts      | Matplotlib          | You know it    |
+| Vector DB   | Pinecone (optional) | PDF schema     |
+| Agent Logic | Python              | Simple control |
+
+Features:
+Natural language queries
+Data analytics charts
+Car recommendations
+Dataset explanation
+AI chatbot interface
+
+
+Production-Style AI Project Folder Structure:
+car_ai_assistant/
+│
+├── app.py                 # Streamlit main application
+│
+├── config/
+│   └── settings.py        # API keys, DB connection
+│
+├── database/
+│   ├── db_connection.py   # MySQL connection
+│   └── queries.py         # SQL query execution
+│
+├── ai_engine/
+│   ├── llm_router.py      # Decide user intent
+│   ├── sql_generator.py   # Convert question → SQL
+│   └── response_builder.py
+│
+├── analytics/
+│   └── charts.py          # matplotlib charts
+│
+├── recommendation/
+│   └── recommender.py     # car recommendation logic
+│
+├── knowledge/
+│   └── schema_reader.py   # PDF schema understanding
+│
+├── data/
+│   ├── cars.csv           # original dataset
+│   └── schema.pdf         # dataset documentation
+│
+└── requirements.txt
+
+Where files go
+| Folder    | What goes inside      |
+| --------- | --------------------- |
+| database  | MySQL connection code |
+| data      | CSV + PDF             |
+| knowledge | code that reads PDF   |
+| analytics | chart generation      |
+| ai_engine | LLM logic             |
+
+Install Required Libraries
+| Library         | Purpose               |
+| --------------- | --------------------- |
+| Streamlit       | Chat UI               |
+| mysql-connector | connect MySQL         |
+| pandas          | data analysis         |
+| plotly          | charts                |
+| gemini api      | LLM                   |
+| dotenv          | environment variables |
+

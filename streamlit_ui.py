@@ -5,10 +5,20 @@ from ai_engine.response_builder import build_response
 
 st.title("🚗 Car AI Assistant")
 
+# ---------- SESSION STATE ----------
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+if "last_question" not in st.session_state:
+    st.session_state.last_question = None
+
+# ---------- CHAT INPUT ----------
 question = st.chat_input("Ask something about cars...")
 
-if question:
-    st.write("User:", question)
+# ---------- PROCESS ONLY NEW INPUT ----------
+if question and question != st.session_state.last_question:
+    # Show user message
+    st.session_state.chat_history.append(("User", question))
 
     # Step 1: Generate SQL
     sql = generate_sql(question)
@@ -19,5 +29,9 @@ if question:
     # Step 3: Convert to human response
     final_response = build_response(question, db_result)
 
-    # Step 4: Show answer
-    st.write("Assistant:", final_response)
+    # Store assistant response
+    st.session_state.chat_history.append(("Assistant", final_response))
+
+# ---------- DISPLAY CHAT ----------
+for role, msg in st.session_state.chat_history:
+    st.write(f"**{role}:** {msg}")

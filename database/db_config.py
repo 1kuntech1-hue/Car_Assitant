@@ -10,8 +10,6 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 parsed_url = urlparse(DATABASE_URL)
 
-
-
 # Parse URL
 parsed_url = urlparse(DATABASE_URL)
 

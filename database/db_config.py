@@ -16,7 +16,9 @@ if DATABASE_URL is None:
     load_dotenv()
     DATABASE_URL = os.getenv("DATABASE_URL")
 
-parsed_url = urlparse(DATABASE_URL)
+# Raise clear error if nothing is set
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set. Add it to .env or Streamlit secrets.")
 
 # Parse URL
 parsed_url = urlparse(DATABASE_URL)

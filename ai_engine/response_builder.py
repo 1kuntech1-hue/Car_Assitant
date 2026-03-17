@@ -1,19 +1,25 @@
 import google.generativeai as genai
+import streamlit as st
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
 
-api_key = os.getenv("API_KEY")
+# using when streamlt coloud--------
+genai.configure(api_key=st.secrets["GoogleGemini_API_KEY"])
 
-genai.configure(api_key=api_key)
+
+# using when streamlt coloud--------
+# load_dotenv()
+
+# api_key = os.getenv("API_KEY")
+
+# genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-
 def build_response(question, db_result):
-
     prompt = f"""
+
     A user asked the following question:
 
     {question}

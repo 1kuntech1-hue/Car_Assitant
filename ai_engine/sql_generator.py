@@ -1,12 +1,17 @@
 import google.generativeai as genai
+import streamlit as st
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# using when streamlt coloud--------
+genai.configure(api_key=st.secrets["GoogleGemini_API_KEY"])
 
-API_KEY=os.getenv('GEMINI_API_KEY')
+# using when streamlt coloud--------
+# load_dotenv()
 
-genai.configure(api_key=API_KEY)
+# API_KEY=os.getenv('GEMINI_API_KEY')
+
+# genai.configure(api_key=API_KEY)
 
 model = genai.GenerativeModel("gemini-2.5-flash")
 
@@ -29,8 +34,12 @@ def generate_sql(question):
     Question: {question}
     """
 
-    response = model.generate_content(prompt)
+    response = model.generate_content(prompt, generation_config={"max_output_tokens":120})
     
+    # Safety checks
+    if not response or not hasattr(response, "text") or response.text is None:
+        return ""  # fallback empty SQL
+
     sql = response.text.strip()
 
     # Remove markdown formatting

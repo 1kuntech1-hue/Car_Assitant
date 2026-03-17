@@ -26,8 +26,14 @@ if question and question != st.session_state.last_question:
     # Step 2: Execute query
     db_result = execute_query(sql)
 
+    # ---------------- Validation ----------------
+    if db_result is None:
+        db_result = []  # fallback to empty list to avoid TypeError
+        
     # Step 3: Convert to human response
     final_response = build_response(question, db_result)
+    if not isinstance(final_response, str):
+        final_response = "Sorry, I could not generate a response."
 
     # Store assistant response
     st.session_state.chat_history.append(("Assistant", final_response))

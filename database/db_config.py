@@ -3,10 +3,18 @@ import mysql.connector
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 
-load_dotenv()
+# Try Streamlit secrets first
+try:
+    import streamlit as st
+    DATABASE_URL = st.secrets.get("DATABASE_URL")
+except ImportError:
+    DATABASE_URL = None
 
-# our Railway connection URL
-DATABASE_URL = os.getenv("DATABASE_URL")
+# Fallback to local .env
+if DATABASE_URL is None:
+    from dotenv import load_dotenv
+    load_dotenv()
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
 parsed_url = urlparse(DATABASE_URL)
 
